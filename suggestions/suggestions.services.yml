@@ -1,0 +1,4 @@
+services:
+  suggestions.service:
+    class: \Drupal\suggestions\Service\SuggestionService
+    arguments: ['@module_handler', '@theme.manager' ]
