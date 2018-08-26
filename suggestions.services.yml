@@ -2,3 +2,7 @@ services:
   suggestions.service:
     class: \Drupal\suggestions\Service\SuggestionService
     arguments: ['@module_handler', '@theme.manager' ]
+  suggestions.node_suggestion:
+    class: '\Drupal\suggestions\EventSubscriber\NodeSuggestionEventSubscriber'
+    tags:
+      - { name: 'event_subscriber' }

@@ -3,3 +3,5 @@ type: module
 description: Helper for theme suggestions
 core: 8.x
 package: Theme
+dependencies:
+  - hook_event_dispatcher
