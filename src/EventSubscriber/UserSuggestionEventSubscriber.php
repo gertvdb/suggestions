@@ -3,16 +3,15 @@
 namespace Drupal\suggestions\EventSubscriber;
 
 use Drupal\core_event_dispatcher\Event\Theme\ThemeSuggestionsAlterIdEvent;
-use Drupal\node\Entity\Node;
 use Drupal\suggestions\Service\SuggestionBuilder;
 use Drupal\suggestions\Service\SuggestionCleaner;
+use Drupal\user\Entity\User;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Class NodeSuggestionEventSubscriber.
+ * Class UserSuggestionEventSubscriber.
  */
-class NodeSuggestionEventSubscriber implements EventSubscriberInterface {
-
+class UserSuggestionEventSubscriber implements EventSubscriberInterface {
 
   /**
    * Provide suggestions.
@@ -35,16 +34,18 @@ class NodeSuggestionEventSubscriber implements EventSubscriberInterface {
     /** @var SuggestionBuilder $cleaner */
     $builder = \Drupal::service('suggestions.builder');
 
-    /** @var Node $node */
-    $node = $variables['elements']['#node'];
+    /** @var User $user */
+    $user = $variables['elements']['#user'];
 
     /** @var string $view_mode */
     $view_mode = $variables['elements']['#view_mode'];
 
+    dump($variables);
+
     // Add node suggestions
     $suggestions[] = $builder->build([$event->getHook(), $view_mode]);
-    $suggestions[] = $builder->build([$event->getHook(), $node->bundle()]);
-    $suggestions[] = $builder->build([$event->getHook(), $node->bundle(), $view_mode]);
+    $suggestions[] = $builder->build([$event->getHook(), $user->bundle()]);
+    $suggestions[] = $builder->build([$event->getHook(), $user->bundle(), $view_mode]);
 
     //$data_twig_suggestions = isset($element['#attributes']['data-twig-suggestions']) ? $element['#attributes']['data-twig-suggestions'] : [];
 
@@ -57,7 +58,7 @@ class NodeSuggestionEventSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return [
-      'hook_event_dispatcher.theme.suggestions_node_alter' => 'provideSuggestions',
+      'hook_event_dispatcher.theme.suggestions_user_alter' => 'provideSuggestions',
     ];
   }
 

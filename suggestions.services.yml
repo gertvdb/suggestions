@@ -1,8 +1,73 @@
 services:
-  suggestions.service:
-    class: \Drupal\suggestions\Service\SuggestionService
+
+  suggestions.cleaner:
+    class: Drupal\suggestions\Service\SuggestionCleaner
     arguments: ['@module_handler', '@theme.manager' ]
-  suggestions.node_suggestion:
-    class: '\Drupal\suggestions\EventSubscriber\NodeSuggestionEventSubscriber'
+
+  suggestions.builder:
+    class: Drupal\suggestions\Service\SuggestionBuilder
+    arguments: []
+
+  suggestions.service:
+    class: Drupal\suggestions\Service\SuggestionService
+    arguments: ['@module_handler','@theme.manager']
+
+  suggestions.html:
+    class: Drupal\suggestions\EventSubscriber\HtmlSuggestionEventSubscriber
+    arguments: ['@suggestions.cleaner','@suggestions.builder']
+    tags:
+      - { name: 'event_subscriber' }
+
+  suggestions.page:
+    class: Drupal\suggestions\EventSubscriber\PageSuggestionEventSubscriber
+    arguments: ['@suggestions.cleaner','@suggestions.builder']
+    tags:
+      - { name: 'event_subscriber' }
+
+  suggestions.node:
+    class: Drupal\suggestions\EventSubscriber\NodeSuggestionEventSubscriber
+    arguments: ['@suggestions.cleaner','@suggestions.builder']
+    tags:
+      - { name: 'event_subscriber' }
+
+  suggestions.user:
+    class: Drupal\suggestions\EventSubscriber\UserSuggestionEventSubscriber
+    arguments: ['@suggestions.cleaner','@suggestions.builder']
+    tags:
+      - { name: 'event_subscriber' }
+
+  suggestions.group:
+    class: Drupal\suggestions\EventSubscriber\GroupSuggestionEventSubscriber
+    arguments: ['@suggestions.cleaner','@suggestions.builder']
+    tags:
+      - { name: 'event_subscriber' }
+
+  suggestions.group_content:
+    class: Drupal\suggestions\EventSubscriber\GroupContentSuggestionEventSubscriber
+    arguments: [ '@suggestions.cleaner','@suggestions.builder' ]
+    tags:
+      - { name: 'event_subscriber' }
+
+  suggestions.form:
+    class: Drupal\suggestions\EventSubscriber\FormSuggestionEventSubscriber
+    arguments: [ '@suggestions.cleaner','@suggestions.builder' ]
+    tags:
+      - { name: 'event_subscriber' }
+
+  suggestions.form_element:
+    class: Drupal\suggestions\EventSubscriber\FormElementSuggestionEventSubscriber
+    arguments: ['@suggestions.cleaner','@suggestions.builder']
+    tags:
+      - { name: 'event_subscriber' }
+
+  suggestions.form_element_label:
+    class: Drupal\suggestions\EventSubscriber\FormElementLabelSuggestionEventSubscriber
+    arguments: ['@suggestions.cleaner','@suggestions.builder']
+    tags:
+      - { name: 'event_subscriber' }
+
+  suggestions.form_element_input:
+    class: Drupal\suggestions\EventSubscriber\FormElementInputSuggestionEventSubscriber
+    arguments: [ '@suggestions.cleaner','@suggestions.builder' ]
     tags:
       - { name: 'event_subscriber' }

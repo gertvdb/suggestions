@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @param $implementations
+ * @param $hook
+ */
+function suggestions_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'theme_suggestions_alter' && isset($implementations['core_event_dispatcher'])) {
+    $hookInit = $implementations['core_event_dispatcher'];
+    unset($implementations['core_event_dispatcher']);
+    $implementations['core_event_dispatcher'] = $hookInit;
+  }
+}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\suggestions\Utility;
+namespace Drupal\suggestions\Service;
 
 /**
  * Provides a opinionated helpers for build suggestions.
@@ -22,8 +22,9 @@ class SuggestionBuilder {
    *
    * @return string
    *   Prepared suggestion string.
+   * @throws \Exception
    */
-  public static function build(array $strings) {
+  public function build(array $strings) {
 
     // First sanitize all strings.
     $sanitizedStrings = [];
@@ -64,8 +65,8 @@ class SuggestionBuilder {
    * @return string
    *   Sanitized string.
    */
-  private function removeInvalidChars(string $string) {
-    return preg_replace('/[^a-zA-Z0-9-]/', '', $string);
+  private function removeInvalidChars($string) {
+    return preg_replace('/[^a-zA-Z0-9-_]/', '', $string);
   }
 
   /**
@@ -79,7 +80,7 @@ class SuggestionBuilder {
    * @return string
    *   Sanitized string.
    */
-  private static function limitDashes(string $string) {
+  private function limitDashes($string) {
     return preg_replace('/-+/', '-', $string);
   }
 
@@ -92,7 +93,7 @@ class SuggestionBuilder {
    * @return string
    *   Sanitized string.
    */
-  private static function convertDashesToUnderscores(string $string) {
+  private function convertDashesToUnderscores($string) {
     return str_replace('-', '_', $string);
   }
 

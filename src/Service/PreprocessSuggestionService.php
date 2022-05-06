@@ -6,7 +6,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Theme\ThemeManagerInterface;
 
 /**
- * Class PreprocessSuggestionService.
+ * Class SuggestionService.
  */
 class PreprocessSuggestionService {
 
