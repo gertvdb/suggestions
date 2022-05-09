@@ -6,7 +6,7 @@
   "minimum-stability": "alpha",
   "autoload": {
     "psr-4": {
-      "Drupal\\hook_event_dispatcher\\": "src/"
+      "Drupal\\suggestions\\": "src/"
     }
   },
   "repositories": {
@@ -20,12 +20,13 @@
     "drupal/hook_event_dispatcher": "^3.1"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-latest"
+    "roave/security-advisories": "dev-latest",
+    "drupal/coder": "^8.3",
+    "drupal/core-recommended": "^9.0"
   },
-  "extra": {
-    "installer-paths": {
-      "vendor/drupal/{$name}": ["drupal/core"],
-      "vendor/drupal/hook_event_dispatcher": ["drupal/hook_event_dispatcher"]
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
   }
 }
