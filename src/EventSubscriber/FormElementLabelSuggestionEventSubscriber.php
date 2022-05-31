@@ -64,9 +64,11 @@ class FormElementLabelSuggestionEventSubscriber implements EventSubscriberInterf
     $builder = \Drupal::service('suggestions.builder');
 
     $variables = $event->getVariables();
+    $element = $variables['element'];
 
     // Small hack to read out parent type. (@see addFormElementType)
-    $type = $variables['type'] ?? NULL;
+    $type = $element['type'] ?? '';
+
     if ($type) {
       // Add suggestion : form_element_label__TYPE.
       $suggestions[] = $builder->build([$event->getHook(), $type]);
