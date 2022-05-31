@@ -17,7 +17,8 @@
   },
   "require": {
     "php": ">=8.1",
-    "drupal/hook_event_dispatcher": "^3.1"
+    "drupal/hook_event_dispatcher": "^3.1",
+    "gertvdb/preprocess_form_element_event_dispatcher": "^1.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
