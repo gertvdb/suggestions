@@ -71,3 +71,9 @@ services:
     arguments: [ '@suggestions.cleaner','@suggestions.builder' ]
     tags:
       - { name: 'event_subscriber' }
+
+  suggestions.item_list:
+    class: Drupal\suggestions\EventSubscriber\ItemListSuggestionEventSubscriber
+    arguments: [ '@suggestions.cleaner','@suggestions.builder' ]
+    tags:
+      - { name: 'event_subscriber' }
