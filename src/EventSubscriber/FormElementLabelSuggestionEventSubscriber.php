@@ -40,7 +40,7 @@ class FormElementLabelSuggestionEventSubscriber implements EventSubscriberInterf
   public function addFormElementType(FormElementPreprocessEvent $event): void
   {
     $variables = $event->getVariables();
-    $variables->getByReference('label')['type'] = $variables->get('type');
+    $variables->getByReference('#attributes')['data-type'] = $variables->get('type');
   }
 
   /**
