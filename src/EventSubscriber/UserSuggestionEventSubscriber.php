@@ -39,9 +39,7 @@ class UserSuggestionEventSubscriber implements EventSubscriberInterface {
 
     /** @var string $view_mode */
     $view_mode = $variables['elements']['#view_mode'];
-
-    dump($variables);
-
+    
     // Add node suggestions
     $suggestions[] = $builder->build([$event->getHook(), $view_mode]);
     $suggestions[] = $builder->build([$event->getHook(), $user->bundle()]);
