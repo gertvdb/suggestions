@@ -39,13 +39,19 @@ class UserSuggestionEventSubscriber implements EventSubscriberInterface {
 
     /** @var string $view_mode */
     $view_mode = $variables['elements']['#view_mode'];
-    
-    // Add node suggestions
-    $suggestions[] = $builder->build([$event->getHook(), $view_mode]);
-    $suggestions[] = $builder->build([$event->getHook(), $user->bundle()]);
-    $suggestions[] = $builder->build([$event->getHook(), $user->bundle(), $view_mode]);
 
-    //$data_twig_suggestions = isset($element['#attributes']['data-twig-suggestions']) ? $element['#attributes']['data-twig-suggestions'] : [];
+    // Add node suggestions
+    if (!empty($view_mode)) {
+      $suggestions[] = $builder->build([$event->getHook(), $view_mode]);
+    }
+
+    if ($user instanceof User) {
+      $suggestions[] = $builder->build([$event->getHook(), $user->bundle()]);
+    }
+
+    if (!empty($view_mode) && $user instanceof User) {
+      $suggestions[] = $builder->build([$event->getHook(), $user->bundle(), $view_mode]);
+    }
 
     $cleaner->unique($suggestions);
   }

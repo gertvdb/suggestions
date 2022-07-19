@@ -47,11 +47,13 @@ class HtmlSuggestionEventSubscriber implements EventSubscriberInterface
     $request = \Drupal::service('request_stack');
     $currentRequest = $request->getCurrentRequest();
 
-    $all = $currentRequest->attributes->all();
+    $all = [];
+    if ($currentRequest) {
+      $all = $currentRequest->attributes->all();
+    }
 
     // Support older versions when entity was passed through _entity
-    $entity = isset($all['_entity']) ? $all['_entity'] : NULL;
-    $all = $currentRequest->attributes->all();
+    $entity = $all['_entity'] ?? NULL;
     if (!$entity && !empty($all)) {
       foreach ($all as $item) {
         if (!$item instanceof ContentEntityInterface) {

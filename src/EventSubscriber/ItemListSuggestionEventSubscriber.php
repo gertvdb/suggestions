@@ -43,7 +43,7 @@ class ItemListSuggestionEventSubscriber implements EventSubscriberInterface
     $builder = \Drupal::service('suggestions.builder');
 
     $variables = $event->getVariables();
-    $context = $variables['context'];
+    $context = $variables['context']['list_style'];
 
     if (!empty($context)) {
       // Add suggestion : item_list__context.
@@ -54,7 +54,7 @@ class ItemListSuggestionEventSubscriber implements EventSubscriberInterface
     // form_element based template suggestion. This should only be used for
     // specific fields that require an other theming than the normal form_element
     // of the type.
-    $customTwigSuggestions = isset($element['#attributes']['data-twig-suggestions']) ? $element['#attributes']['data-twig-suggestions'] : [];
+    $customTwigSuggestions = $element['#attributes']['data-twig-suggestions'] ?? [];
     if (!empty($customTwigSuggestions)) {
       foreach ($customTwigSuggestions as $customTwigSuggestion) {
         // Add suggestion : form_element_label__DATA_TWIG_SUGGESTION.

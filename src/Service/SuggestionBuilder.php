@@ -2,6 +2,9 @@
 
 namespace Drupal\suggestions\Service;
 
+use Exception;
+use RuntimeException;
+
 /**
  * Provides a opinionated helpers for build suggestions.
  *
@@ -12,19 +15,20 @@ class SuggestionBuilder {
   /**
    * Delimiter used for suggestion build.
    */
-  const DELIMITER = '__';
+  public const DELIMITER = '__';
 
   /**
    * Suggestion builder.
    *
    * @param string[] $strings
-   *   Add strings as more as you need.
+   *   Add strings as much as you need.
    *
    * @return string
    *   Prepared suggestion string.
-   * @throws \Exception
+   * @throws Exception
    */
-  public function build(array $strings) {
+  public function build(array $strings): string
+  {
 
     // First sanitize all strings.
     $sanitizedStrings = [];
@@ -32,20 +36,20 @@ class SuggestionBuilder {
 
       // Make sure keys are strings.
       if (!is_scalar($string)) {
-        throw new \Exception("Invalid suggestion array passed to builder.");
+        throw new RuntimeException("Invalid suggestion array passed to builder : " . implode('|', $strings));
       }
 
       // Make sure string is lower case.
       $string = mb_strtolower($string);
 
       // Clean invalid characters.
-      $string = self::removeInvalidChars($string);
+      $string = $this->removeInvalidChars($string);
 
       // Limit use of dashes.
-      $string = self::limitDashes($string);
+      $string = $this->limitDashes($string);
 
       // Convert the dashes.
-      $string = self::convertDashesToUnderscores($string);
+      $string = $this->convertDashesToUnderscores($string);
 
       // Fill array with sanitized strings.
       $sanitizedStrings[] = $string;
@@ -65,7 +69,8 @@ class SuggestionBuilder {
    * @return string
    *   Sanitized string.
    */
-  private function removeInvalidChars($string) {
+  private function removeInvalidChars(string $string): string
+  {
     return preg_replace('/[^a-zA-Z0-9-_]/', '', $string);
   }
 
@@ -80,7 +85,8 @@ class SuggestionBuilder {
    * @return string
    *   Sanitized string.
    */
-  private function limitDashes($string) {
+  private function limitDashes(string $string): string
+  {
     return preg_replace('/-+/', '-', $string);
   }
 
@@ -93,7 +99,8 @@ class SuggestionBuilder {
    * @return string
    *   Sanitized string.
    */
-  private function convertDashesToUnderscores($string) {
+  private function convertDashesToUnderscores(string $string): string
+  {
     return str_replace('-', '_', $string);
   }
 

@@ -36,18 +36,6 @@ services:
     tags:
       - { name: 'event_subscriber' }
 
-  suggestions.group:
-    class: Drupal\suggestions\EventSubscriber\GroupSuggestionEventSubscriber
-    arguments: ['@suggestions.cleaner','@suggestions.builder']
-    tags:
-      - { name: 'event_subscriber' }
-
-  suggestions.group_content:
-    class: Drupal\suggestions\EventSubscriber\GroupContentSuggestionEventSubscriber
-    arguments: [ '@suggestions.cleaner','@suggestions.builder' ]
-    tags:
-      - { name: 'event_subscriber' }
-
   suggestions.form:
     class: Drupal\suggestions\EventSubscriber\FormSuggestionEventSubscriber
     arguments: [ '@suggestions.cleaner','@suggestions.builder' ]
@@ -56,12 +44,6 @@ services:
 
   suggestions.form_element:
     class: Drupal\suggestions\EventSubscriber\FormElementSuggestionEventSubscriber
-    arguments: ['@suggestions.cleaner','@suggestions.builder']
-    tags:
-      - { name: 'event_subscriber' }
-
-  suggestions.form_element_label:
-    class: Drupal\suggestions\EventSubscriber\FormElementLabelSuggestionEventSubscriber
     arguments: ['@suggestions.cleaner','@suggestions.builder']
     tags:
       - { name: 'event_subscriber' }

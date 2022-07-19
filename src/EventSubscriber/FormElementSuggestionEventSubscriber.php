@@ -58,7 +58,7 @@ class FormElementSuggestionEventSubscriber implements EventSubscriberInterface
     if (!empty($customTwigSuggestions)) {
 
       if (!is_array($customTwigSuggestions)) {
-        throw new \Exception('value passed to data-twig-suggestions should be an array');
+        throw new \RuntimeException('value passed to data-twig-suggestions should be an array');
       }
 
       foreach ($customTwigSuggestions as $customTwigSuggestion) {

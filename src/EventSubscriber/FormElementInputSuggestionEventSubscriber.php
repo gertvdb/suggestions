@@ -45,23 +45,29 @@ class FormElementInputSuggestionEventSubscriber implements EventSubscriberInterf
 
     $element = $variables['element'];
 
+    $type = $element['#type'];
+
     // Add suggestion : input__TYPE.
-    $suggestions[] = $builder->build([$event->getHook(), $element['#type']]);
+    if (!empty($type)) {
+      $suggestions[] = $builder->build([$event->getHook(), $element['#type']]);
+    }
 
     // Add suggestion based on extra attribute on input so we can provide an
     // form_element based template suggestion. This should only be used for
     // specific fields that require an other theming than the normal form_element
     // of the type.
-    $customTwigSuggestions = isset($element['#attributes']['data-twig-suggestions']) ? $element['#attributes']['data-twig-suggestions'] : [];
+    $customTwigSuggestions = $element['#attributes']['data-twig-suggestions'] ?? [];
     if (!empty($customTwigSuggestions)) {
 
       if (!is_array($customTwigSuggestions)) {
-        throw new \Exception('value passed to data-twig-suggestions should be an array');
+        throw new \RuntimeException('value passed to data-twig-suggestions should be an array');
       }
 
       foreach ($customTwigSuggestions as $customTwigSuggestion) {
         // Add suggestion : input__DATA_TWIG_SUGGESTION.
-        $suggestions[] = $builder->build([$event->getHook(), $element['#type'], $customTwigSuggestion]);
+        if (!empty($type)) {
+          $suggestions[] = $builder->build([$event->getHook(), $element['#type'], $customTwigSuggestion]);
+        }
       }
     }
 

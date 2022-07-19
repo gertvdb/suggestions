@@ -42,11 +42,17 @@ class NodeSuggestionEventSubscriber implements EventSubscriberInterface {
     $view_mode = $variables['elements']['#view_mode'];
 
     // Add node suggestions
-    $suggestions[] = $builder->build([$event->getHook(), $view_mode]);
-    $suggestions[] = $builder->build([$event->getHook(), $node->bundle()]);
-    $suggestions[] = $builder->build([$event->getHook(), $node->bundle(), $view_mode]);
+    if (!empty($view_mode)) {
+      $suggestions[] = $builder->build([$event->getHook(), $view_mode]);
+    }
 
-    //$data_twig_suggestions = isset($element['#attributes']['data-twig-suggestions']) ? $element['#attributes']['data-twig-suggestions'] : [];
+    if ($node instanceof Node) {
+      $suggestions[] = $builder->build([$event->getHook(), $node->bundle()]);
+    }
+
+    if (!empty($view_mode) && $node instanceof Node) {
+      $suggestions[] = $builder->build([$event->getHook(), $node->bundle(), $view_mode]);
+    }
 
     $cleaner->unique($suggestions);
   }

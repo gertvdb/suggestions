@@ -17,7 +17,8 @@ class SuggestionCleaner {
    *
    * @param array $suggestions
    */
-  public function unique(array &$suggestions) {
+  public function unique(array &$suggestions): void
+  {
     $this->removeDoubleSuggestions($suggestions);
   }
 
@@ -26,7 +27,8 @@ class SuggestionCleaner {
    *
    * @param array $suggestions
    */
-  public function clean(array &$suggestions) {
+  public function clean(array &$suggestions): void
+  {
     $this->removeUnwantedSuggestions($suggestions);
   }
 
@@ -40,7 +42,8 @@ class SuggestionCleaner {
    *
    * @param $suggestions
    */
-  private function removeUnwantedSuggestions(&$suggestions) {
+  private function removeUnwantedSuggestions(&$suggestions): void
+  {
     foreach ($suggestions as $key => $suggestion) {
 
       // Theming should depend on the id of the entity.
@@ -49,12 +52,12 @@ class SuggestionCleaner {
       }
 
       // Theming should depend on the % wildcard.
-      if (strpos($suggestion, '%') !== false) {
+      if (str_contains($suggestion, '%')) {
         unset($suggestions[$key]);
       }
 
       // Theming should depend on whether it's the front page.
-      if (strpos($suggestion, '__front') !== false) {
+      if (str_contains($suggestion, '__front')) {
         unset($suggestions[$key]);
       }
 
@@ -66,7 +69,8 @@ class SuggestionCleaner {
    *
    * @param $suggestions
    */
-  private function removeDoubleSuggestions(&$suggestions) {
+  private function removeDoubleSuggestions(&$suggestions): void
+  {
     $suggestions = array_unique($suggestions);
   }
 

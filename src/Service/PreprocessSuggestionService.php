@@ -10,28 +10,28 @@ use Drupal\Core\Theme\ThemeManagerInterface;
  */
 class PreprocessSuggestionService {
 
-  const SUGGESTION_BASE_HOOK = 'theme_suggestions';
+  public const SUGGESTION_BASE_HOOK = 'theme_suggestions';
 
   /**
    * Module handler.
    *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   * @var ModuleHandlerInterface
    */
-  private $moduleHandler;
+  private ModuleHandlerInterface $moduleHandler;
 
   /**
    * The theme manager.
    *
-   * @var \Drupal\Core\Theme\ThemeManagerInterface
+   * @var ThemeManagerInterface
    */
-  private $themeManager;
+  private ThemeManagerInterface $themeManager;
 
   /**
    * PreprocessEventService constructor.
    *
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
+   * @param ModuleHandlerInterface $moduleHandler
    *   Module handler.
-   * @param \Drupal\Core\Theme\ThemeManagerInterface $themeManager
+   * @param ThemeManagerInterface $themeManager
    *   The theme manager.
    */
   public function __construct(ModuleHandlerInterface $moduleHandler, ThemeManagerInterface $themeManager) {
@@ -50,11 +50,12 @@ class PreprocessSuggestionService {
    * @return array
    *   An array of provided suggestions.
    */
-  public function getHookSuggestions($hook, array &$variables) {
-    $suggestions = $this->moduleHandler->invokeAll(PreprocessSuggestionService::SUGGESTION_BASE_HOOK . '_' . $hook, [$variables]);
+  public function getHookSuggestions($hook, array &$variables): array
+  {
+    $suggestions = $this->moduleHandler->invokeAll(self::SUGGESTION_BASE_HOOK . '_' . $hook, [$variables]);
     $hooks = [
-      PreprocessSuggestionService::SUGGESTION_BASE_HOOK,
-      PreprocessSuggestionService::SUGGESTION_BASE_HOOK . '_' . $hook,
+      self::SUGGESTION_BASE_HOOK,
+      self::SUGGESTION_BASE_HOOK . '_' . $hook,
     ];
     $this->moduleHandler->alter($hooks, $suggestions, $variables, $hook);
     $this->themeManager->alter($hooks, $suggestions, $variables, $hook);
