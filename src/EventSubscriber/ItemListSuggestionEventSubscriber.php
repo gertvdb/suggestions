@@ -43,7 +43,7 @@ class ItemListSuggestionEventSubscriber implements EventSubscriberInterface
     $builder = \Drupal::service('suggestions.builder');
 
     $variables = $event->getVariables();
-    $context = $variables['context']['list_style'];
+    $context = $variables['context']['list_style'] ?? NULL;
 
     if (!empty($context)) {
       // Add suggestion : item_list__context.

@@ -45,7 +45,7 @@ class FormElementInputSuggestionEventSubscriber implements EventSubscriberInterf
 
     $element = $variables['element'];
 
-    $type = $element['#type'];
+    $type = $element['#type'] ?? NULL;
 
     // Add suggestion : input__TYPE.
     if (!empty($type)) {
