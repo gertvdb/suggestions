@@ -32,6 +32,7 @@ class FormElementInputSuggestionEventSubscriber implements EventSubscriberInterf
    */
   public function provideSuggestions(ThemeSuggestionsAlterIdEvent $event) {
 
+
     $suggestions = &$event->getSuggestions();
 
     /** @var SuggestionCleaner $cleaner */
@@ -46,12 +47,21 @@ class FormElementInputSuggestionEventSubscriber implements EventSubscriberInterf
     $element = $variables['element'];
 
     $type = $element['#type'] ?? NULL;
+    $button_type = $element['#button_type'] ?? NULL;
 
     // Add suggestion : input__TYPE.
     if (!empty($type)) {
-      $suggestions[] = $builder->build([$event->getHook(), $element['#type']]);
+      $suggestions[] = $builder->build([$event->getHook(), $type]);
     }
 
+    if (!empty($button_type)) {
+      $suggestions[] = $builder->build([$event->getHook(), $button_type]);
+    }
+
+    if (!empty($type) && !empty($button_type)) {
+      $suggestions[] = $builder->build([$event->getHook(), $type, $button_type]);
+    }
+    
     // Add suggestion based on extra attribute on input so we can provide an
     // form_element based template suggestion. This should only be used for
     // specific fields that require an other theming than the normal form_element
